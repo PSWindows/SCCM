@@ -9,14 +9,9 @@ $Results = Get-CimInstance -Namespace $SCCMNamespace -Query $Query
 
 $Results | Select-Object ResourceID, Name, Client, ResourceDomainORWorkgroup
 
-<#$Query = @"
+$Query = @"
 SELECT  
-    ResourceID,  
-    ResourceType,  
-    Name,  
-    SMSUniqueIdentifier,  
-    ResourceDomainORWorkgroup,  
-    Client  
+   * 
 FROM  
     SMS_R_System  
 WHERE  
@@ -27,4 +22,4 @@ WHERE
         AND BuildNumber < '22000'  
         AND ProductType = '1'  
     )
-"@#>
+"@
