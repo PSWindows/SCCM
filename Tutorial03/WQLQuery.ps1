@@ -7,7 +7,7 @@ $Query = "select *  from  SMS_R_System where SMS_R_System.OperatingSystemNameand
 
 $Results = Get-CimInstance -Namespace $SCCMNamespace -Query $Query
 
-$Results | Select-Object ResourceID, Name, Client, ResourceDomainORWorkgroup
+$Results | Select-Object ResourceID, Name, Client, ResourceDomainORWorkgroup, LastLogonTimestamp
 
 $Query = @"
 SELECT  
