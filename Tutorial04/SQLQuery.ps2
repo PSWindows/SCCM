@@ -1,0 +1,29 @@
+#Retrieve Workstation Devices from SCCM using PowerShell/SQL/SQL Query Analyzer
+
+#Step 1 if this is not balnk then got to step 3
+Get-Command -Module SqlServer
+# Step 2
+Install-Module -Name SqlServer -Scope Allusers -Force -AllowClobber
+
+
+# Step 3
+$query = @"
+SELECT DISTINCT sys.ResourceID, sys.Name0, os.Caption0 as OS
+FROM v_R_System AS sys
+JOIN v_GS_OPERATING_SYSTEM AS os ON sys.ResourceID = os.ResourceID
+"@
+
+# Step 4
+Invoke-Sqlcmd -ServerInstance SCCM01 -Database "CM_SiteCode" -Query $Query -TrustServerCertificate 
+
+
+
+$query = @"
+SELECT DISTINCT sys.ResourceID, sys.Name0, os.Caption0 AS OS, os.LastBootUpTime0
+FROM            v_R_System AS sys INNER JOIN
+                         v_GS_OPERATING_SYSTEM AS os ON sys.ResourceID = os.ResourceID
+WHERE        (os.Caption0 LIKE N'%10%')
+"@
+
+
+Invoke-Sqlcmd -ServerInstance SCCM01 -Database "CM_SiteCode" -Query $Query -TrustServerCertificate
